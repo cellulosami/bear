@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 	private Rigidbody2D m_Rigidbody2D;
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
+	private Vector2 velocity;
 
 	[Header("Events")]
 	[Space]
@@ -45,6 +46,7 @@ public class PlayerController : MonoBehaviour
 	{
 		bool wasGrounded = m_Grounded;
 		m_Grounded = false;
+		m_Rigidbody2D.gravityScale = 0;
 
 		// The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
 		// This can be done using layers instead but Sample Assets will not overwrite your project settings.
@@ -129,7 +131,9 @@ public class PlayerController : MonoBehaviour
 		{
 			// Add a vertical force to the player.
 			m_Grounded = false;
-			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+			velocity = m_Rigidbody2D.velocity;
+			velocity.y = m_JumpForce;
+			m_Rigidbody2D.velocity = velocity;
 		}
 	}
 
